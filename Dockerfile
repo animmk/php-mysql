@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 
 # Install dependencies
 RUN set -ex; \
@@ -36,6 +36,8 @@ RUN set -ex; \
         | xargs -rt apt-mark manual; \
     \
     apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-    rm -rf /var/lib/apt/lists/*
-    
+    rm -rf /var/lib/apt/lists/*; \
+    sed 's/ 2M/ 40M/' -i $PHP_INI_DIR/php.ini-*; \
+    sed 's/ 8M/ 40M/' -i $PHP_INI_DIR/php.ini-*
+
     
